@@ -9,7 +9,7 @@ import org.springframework.data.redis.connection.MessageListener;
  * @version 1.0
  * @date 2018-04-09 14:51
  */
-public class PushListener implements MessageListener {
+public class RedisMessageListener implements MessageListener {
     @Override
     public void onMessage(Message message, byte[] bytes) {
         byte[] body = message.getBody();

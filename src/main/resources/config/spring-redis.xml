@@ -23,9 +23,9 @@
           p:connectionFactory-ref="jedisConnectionFactory"
           p:defaultSerializer-ref="fastJsonRedisConvertor"/>
 
-    <bean id="pushListener" class="com.allen.PushListener"/>
+    <bean id="redisMessageListener" class="com.allen.RedisMessageListener"/>
 
     <redis:listener-container connection-factory="jedisConnectionFactory">
-        <redis:listener ref="pushListener" topic="push-topic"/>
+        <redis:listener ref="redisMessageListener" topic="push-topic"/>
     </redis:listener-container>
 </beans>
