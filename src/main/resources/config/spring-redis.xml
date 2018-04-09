@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:redis="http://www.springframework.org/schema/redis"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis.xsd">
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"
+          p:maxTotal="100"
+          p:maxIdle="10"
+          p:maxWaitMillis="500"
+          p:testWhileIdle="true"
+          p:softMinEvictableIdleTimeMillis="600000"
+          p:timeBetweenEvictionRunsMillis="1800000"/>
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="10.104.3.27"
+          p:port="6379"
+          p:password=""
+          p:timeout="1000"
+          p:poolConfig-ref="jedisPoolConfig"/>
+
+    <bean id="fastJsonRedisConvertor" class="com.allen.FastJsonRedisConvertor"/>
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+          p:connectionFactory-ref="jedisConnectionFactory"
+          p:defaultSerializer-ref="fastJsonRedisConvertor"/>
+
+    <bean id="pushListener" class="com.allen.PushListener"/>
+
+    <redis:listener-container connection-factory="jedisConnectionFactory">
+        <redis:listener ref="pushListener" topic="push-topic"/>
+    </redis:listener-container>
+</beans>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src='../js/jmessage-sdk-web.2.6.0.min.js'></script>
+<script src='../js/md5.js'></script>
+<script>
+    var JIM = new JMessage();
+    var appkey = 'd118c60ebd830894fe42a6b9';
+    var timestamp = new Date().getTime();
+    var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var random_str = '';
+    for (var i = 0; i < 20; i++) {
+        random_str += str.charAt(Math.floor(Math.random() * str.length));
+    }
+    var signature = hex_md5("appkey=" + appkey + "&timestamp=" + timestamp + "&random_str=" + random_str + "&key=ca4c76245fc06dde2961bf5d");
+    JIM.init({
+        "appkey": appkey,
+        "random_str": random_str,
+        "signature": signature,
+        "timestamp": timestamp,
+        "flag": 0
+    }).onSuccess(function (data) {
+        console.log(data.message);
+        JIM.login({
+            'username': 'dora',
+            'password': 'Dora123'
+        }).onSuccess(function (data) {
+            console.log(data);
+            JIM.onMsgReceive(function (data) {
+                console.log(data);
+            });
+        }).onFail(function (data) {
+            console.log(data);
+        });
+    }).onFail(function (data) {
+        console.log(data);
+    });
+
+
+</script>
+<body>
+jim
+</body>
+</html>
