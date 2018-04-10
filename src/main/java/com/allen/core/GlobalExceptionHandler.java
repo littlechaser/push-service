@@ -1,4 +1,4 @@
-package com.allen;
+package com.allen.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -24,11 +24,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.List;
 
-/**
- * Author   yang_tao@<yangtao.letzgo.com.cn>
- * Date     2017-10-24 12:40
- * Version  1.0
- */
 @ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {

@@ -1,4 +1,4 @@
-package com.allen;
+package com.allen.core;
 
 public class BizDataException extends RuntimeException {
 

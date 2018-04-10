@@ -1,4 +1,4 @@
-package com.allen;
+package com.allen.core;
 
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
@@ -8,11 +8,6 @@ import org.springframework.data.redis.serializer.SerializationException;
 
 import java.io.UnsupportedEncodingException;
 
-/**
- * @author yang_tao@<yangtao.letzgo.com.cn>
- * @version 1.0
- * @date 2018-04-09 16:55
- */
 public class FastJsonRedisConvertor implements RedisSerializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FastJsonRedisConvertor.class);

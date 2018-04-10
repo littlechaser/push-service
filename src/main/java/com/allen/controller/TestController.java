@@ -1,22 +1,22 @@
-package com.allen;
+package com.allen.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.allen.core.ResponseData;
+import com.allen.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping(value = "/push")
+import javax.validation.Valid;
+
+@RestController
 public class TestController {
 
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @RequestMapping(value = "/test")
-    @ResponseBody
+    @RequestMapping(value = "/push")
     public ResponseData test(@RequestParam("username") String username) throws Exception {
         JSONObject pushDTO = new JSONObject();
         pushDTO.put("username", username);
@@ -26,6 +26,17 @@ public class TestController {
         pushDTO.put("data", data);
         redisTemplate.convertAndSend("push-topic", pushDTO);
         return ResponseData.OK();
+    }
+
+    /**
+     * JSR 303 - Bean Validation
+     */
+    @RequestMapping(value = "/jsr303",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseData jsr303(@RequestBody @Valid UserDTO userDTO) {
+        return ResponseData.OK(userDTO);
     }
 
 }

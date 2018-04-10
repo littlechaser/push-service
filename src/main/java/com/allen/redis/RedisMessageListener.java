@@ -1,14 +1,10 @@
-package com.allen;
+package com.allen.redis;
 
 import com.alibaba.fastjson.JSONObject;
+import com.allen.websocket.TextWebSocketHandler;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 
-/**
- * @author yang_tao@<yangtao.letzgo.com.cn>
- * @version 1.0
- * @date 2018-04-09 14:51
- */
 public class RedisMessageListener implements MessageListener {
     @Override
     public void onMessage(Message message, byte[] bytes) {

@@ -1,5 +1,6 @@
-package com.allen;
+package com.allen.websocket;
 
+import com.allen.core.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -11,11 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * @author yang_tao@<yangtao.letzgo.com.cn>
- * @version 1.0
- * @date 2018-04-08 16:19
- */
 public class UserHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
     public UserHandshakeInterceptor() {
         super();

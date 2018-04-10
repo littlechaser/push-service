@@ -1,4 +1,4 @@
-package com.allen;
+package com.allen.core;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

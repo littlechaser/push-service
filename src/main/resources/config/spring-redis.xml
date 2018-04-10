@@ -17,13 +17,13 @@
           p:timeout="1000"
           p:poolConfig-ref="jedisPoolConfig"/>
 
-    <bean id="fastJsonRedisConvertor" class="com.allen.FastJsonRedisConvertor"/>
+    <bean id="fastJsonRedisConvertor" class="com.allen.core.FastJsonRedisConvertor"/>
 
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
           p:connectionFactory-ref="jedisConnectionFactory"
           p:defaultSerializer-ref="fastJsonRedisConvertor"/>
 
-    <bean id="redisMessageListener" class="com.allen.RedisMessageListener"/>
+    <bean id="redisMessageListener" class="com.allen.redis.RedisMessageListener"/>
 
     <redis:listener-container connection-factory="jedisConnectionFactory">
         <redis:listener ref="redisMessageListener" topic="push-topic"/>

@@ -1,4 +1,4 @@
-package com.allen;
+package com.allen.core;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;

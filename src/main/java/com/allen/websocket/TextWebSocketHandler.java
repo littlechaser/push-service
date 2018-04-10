@@ -1,6 +1,9 @@
-package com.allen;
+package com.allen.websocket;
 
 import com.alibaba.fastjson.JSON;
+import com.allen.core.BizDataException;
+import com.allen.core.Constants;
+import com.allen.core.ExceptionStackTraceUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,11 +12,6 @@ import org.springframework.web.socket.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @author yang_tao@<yangtao.letzgo.com.cn>
- * @version 1.0
- * @date 2018-04-08 15:38
- */
 public class TextWebSocketHandler implements WebSocketHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TextWebSocketHandler.class);
