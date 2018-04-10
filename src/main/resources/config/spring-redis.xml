@@ -17,7 +17,7 @@
           p:timeout="1000"
           p:poolConfig-ref="jedisPoolConfig"/>
 
-    <bean id="fastJsonRedisConvertor" class="com.allen.core.FastJsonRedisConvertor"/>
+    <bean id="fastJsonRedisConvertor" class="com.allen.redis.FastJsonRedisConvertor"/>
 
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
           p:connectionFactory-ref="jedisConnectionFactory"
