@@ -11,9 +11,9 @@
           p:softMinEvictableIdleTimeMillis="600000"
           p:timeBetweenEvictionRunsMillis="1800000"/>
     <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-          p:hostName="10.104.3.27"
+          p:hostName="192.168.16.84"
           p:port="6379"
-          p:password=""
+          p:password="123456"
           p:timeout="1000"
           p:poolConfig-ref="jedisPoolConfig"/>
 
