@@ -1,12 +1,12 @@
 package com.allen.websocket;
 
 import com.alibaba.fastjson.JSON;
-import com.allen.core.BizDataException;
-import com.allen.core.Constants;
-import com.allen.core.ExceptionStackTraceUtils;
+import com.allen.core.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.socket.*;
 
 import java.util.Map;
@@ -62,19 +62,28 @@ public class TextWebSocketHandler implements WebSocketHandler {
         return false;
     }
 
-    public static <T> void sendMessage(String username, T data) throws Exception {
+    public static <T> void sendMessage(JSONMessage data) throws Exception {
+        String username = data.getUsername();
         if (StringUtils.isBlank(username)) {
             throw new BizDataException("发送失败，发送目标不能为空");
         }
-        if (data == null) {
+        if (data == null || StringUtils.isBlank(JSON.toJSONString(data))) {
             throw new BizDataException("发送失败，发送内容不能为空");
         }
-        String jsonString = JSON.toJSONString(data);
-        if (StringUtils.isBlank(jsonString)) {
-            throw new BizDataException("发送失败，发送内容不能为空");
+        String msgId = data.getMsgId();
+        if (StringUtils.isBlank(msgId)) {
+            throw new BizDataException("发送失败，消息格式有误");
         }
         TextMessage textMessage = new TextMessage(JSON.toJSONString(data));
         if (Constants.ALL_USER.equals(username)) {
+            RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+            RedisConnection connection = redisTemplate.getConnectionFactory().getConnection();
+            Boolean setNX = redisTemplate.getConnectionFactory().getConnection().setNX(msgId.getBytes(), "1".getBytes());
+            if (setNX) {
+                connection.expire(msgId.getBytes(), 60L);
+            } else {
+                return;
+            }
             Integer all = webSocketSessionContainer.size();
             Integer success = 0;
             Integer failure = 0;
@@ -98,7 +107,8 @@ public class TextWebSocketHandler implements WebSocketHandler {
         } else {
             final WebSocketSession session = webSocketSessionContainer.get(username);
             if (session == null) {
-                throw new BizDataException("用户不存在或已断开连接");
+                LOGGER.info("用户{}未连接", username);
+                return;
             }
             if (session.isOpen()) {
                 session.sendMessage(textMessage);

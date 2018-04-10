@@ -1,6 +1,7 @@
 package com.allen.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.allen.core.JSONMessage;
 import com.allen.core.ResponseData;
 import com.allen.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,13 @@ public class TestController {
 
     @RequestMapping(value = "/push")
     public ResponseData test(@RequestParam("username") String username) throws Exception {
-        JSONObject pushDTO = new JSONObject();
-        pushDTO.put("username", username);
+        JSONMessage message = new JSONMessage();
+        message.setUsername(username);
         JSONObject data = new JSONObject();
         data.put("orderId", "132574685486");
         data.put("status", 8);
-        pushDTO.put("data", data);
-        redisTemplate.convertAndSend("push-topic", pushDTO);
+        message.setData(data);
+        redisTemplate.convertAndSend("push-topic", message);
         return ResponseData.OK();
     }
 
