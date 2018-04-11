@@ -1,12 +1,13 @@
 package com.allen.websocket;
 
 import com.alibaba.fastjson.JSON;
-import com.allen.core.*;
+import com.allen.core.BizDataException;
+import com.allen.core.Constants;
+import com.allen.core.ExceptionStackTraceUtils;
+import com.allen.core.JSONMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.socket.*;
 
 import java.util.Map;
@@ -76,14 +77,6 @@ public class TextWebSocketHandler implements WebSocketHandler {
         }
         TextMessage textMessage = new TextMessage(JSON.toJSONString(data));
         if (Constants.ALL_USER.equals(username)) {
-            RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-            RedisConnection connection = redisTemplate.getConnectionFactory().getConnection();
-            Boolean setNX = redisTemplate.getConnectionFactory().getConnection().setNX(msgId.getBytes(), "1".getBytes());
-            if (setNX) {
-                connection.expire(msgId.getBytes(), 60L);
-            } else {
-                return;
-            }
             Integer all = webSocketSessionContainer.size();
             Integer success = 0;
             Integer failure = 0;
