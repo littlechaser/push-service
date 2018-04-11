@@ -63,19 +63,19 @@ public class TextWebSocketHandler implements WebSocketHandler {
         return false;
     }
 
-    public static <T> void sendMessage(JSONMessage data) throws Exception {
-        String username = data.getUsername();
+    public static <T> void sendMessage(JSONMessage jsonMessage) throws Exception {
+        String username = jsonMessage.getUsername();
         if (StringUtils.isBlank(username)) {
             throw new BizDataException("发送失败，发送目标不能为空");
         }
-        if (data == null || StringUtils.isBlank(JSON.toJSONString(data))) {
+        if (jsonMessage == null || StringUtils.isBlank(JSON.toJSONString(jsonMessage))) {
             throw new BizDataException("发送失败，发送内容不能为空");
         }
-        String msgId = data.getMsgId();
+        String msgId = jsonMessage.getMsgId();
         if (StringUtils.isBlank(msgId)) {
             throw new BizDataException("发送失败，消息格式有误");
         }
-        TextMessage textMessage = new TextMessage(JSON.toJSONString(data));
+        TextMessage textMessage = new TextMessage(JSON.toJSONString(jsonMessage));
         if (Constants.ALL_USER.equals(username)) {
             Integer all = webSocketSessionContainer.size();
             Integer success = 0;

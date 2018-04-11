@@ -1,7 +1,6 @@
 package com.allen.redis;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.allen.core.ExceptionStackTraceUtils;
 import com.allen.core.JSONMessage;
 import org.slf4j.Logger;
@@ -17,12 +16,12 @@ public class FastJsonRedisConvertor implements RedisSerializer<JSONMessage> {
     private static final Logger LOGGER = LoggerFactory.getLogger(FastJsonRedisConvertor.class);
 
     @Override
-    public byte[] serialize(JSONMessage data) throws SerializationException {
-        if (data == null) {
+    public byte[] serialize(JSONMessage jsonMessage) throws SerializationException {
+        if (jsonMessage == null) {
             return new byte[0];
         }
-        data.setMsgId(getMsgId());
-        String jsonString = JSON.toJSONString(data);
+        jsonMessage.setMsgId(getMsgId());
+        String jsonString = JSON.toJSONString(jsonMessage);
         try {
             return jsonString.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
